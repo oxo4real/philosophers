@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:29 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/27 16:38:21 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/27 20:37:35 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_data
 	unsigned long long	time_to_sleep;
 	bool				meals;
 	unsigned long long	meals_to_eat;
-	unsigned long long	start_time;
 	bool				stop;
+	unsigned long long	start_time;
 	pthread_mutex_t		forks[200];
 	pthread_mutex_t		print;
 }				t_data;
@@ -43,6 +43,7 @@ typedef struct s_philo
 	unsigned long long	last_eaten;
 	bool				is_eating;
 	unsigned long long	meals_eaten;
+	bool				stop;
 	t_data				*data;
 }				t_philo;
 
@@ -52,7 +53,6 @@ int					valid_input(char **av);
 void				ft_putstr_fd(const char *s, int fd);
 void				ft_putchar_fd(char c, int fd);
 void				*routine(void *phil);
-void				*azrael_routine(void *data);
 void				ft_putnbr_fd(unsigned long long nb, int fd);
 void				die(t_philo *philo);
 void				take_a_fork(t_philo *philo);

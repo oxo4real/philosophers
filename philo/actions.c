@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:53:06 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/27 17:48:38 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/27 20:27:30 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ void	eat(t_philo *p)
 	ft_putstr_fd(" is eating\n", 1);
 	pthread_mutex_unlock(&p->data->print);
 	usleep(p->data->time_to_eat * 1000);
-	p->is_eating = false;
 	pthread_mutex_unlock(&p->data->forks[max(p->id % n, (p->id + 1) % n)]);
 	pthread_mutex_unlock(&p->data->forks[min(p->id % n, (p->id + 1) % n)]);
 	gettimeofday(&time, NULL);
 	p->last_eaten = time.tv_sec * 1000 + time.tv_usec / 1000;
+	p->is_eating = false;
 	p->meals_eaten++;
 }
 

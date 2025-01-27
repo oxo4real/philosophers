@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   azrael.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 15:23:14 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/27 20:38:21 by aaghzal          ###   ########.fr       */
+/*   Created: 2025/01/27 20:30:20 by aaghzal           #+#    #+#             */
+/*   Updated: 2025/01/27 20:46:30 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*routine(void *philo)
+void	azrael(t_philo *philo, t_data *data)
 {
-	t_philo		*p;
-	t_data		*d;
+	int		i;
+	int		not_done;
 
-	p = (t_philo *)philo;
-	d = p->data;
-	if (p->id % 2 != 0)
-	{
-		think(p);
-		usleep(30);
-	}
 	while (true)
 	{
-		if (p->stop || d->stop)
-			break ;
-		eat(p);
-		if (p->stop || d->stop)
-			break ;
-		rest(p);
-		if (p->stop || d->stop)
-			break ;
-		think(p);
+		i = 0;
+		not_done = 0;
+		while (i < data->philo_num)
+		{
+			if (data->meals && philo[i].meals_eaten < data->meals_to_eat)
+				not_done++;
+			...
+		}
 	}
-	return (NULL);
 }

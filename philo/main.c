@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:10 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/27 17:50:50 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/27 20:39:25 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av)
 	t_data		data;
 	t_philo		philo[200];
 	pthread_t	threads[200];
-	pthread_t	azrael;
 
 	if (ac < 5 || ac > 6)
 		return (ft_putstr_fd(USAGE, 2), 1);
@@ -32,8 +31,6 @@ int	main(int ac, char **av)
 	init_data(av, &data);
 	init_philo(philo, &data);
 	creat_threads(threads, philo, data.philo_num);
-	//pthread_create(&azrael, NULL, azrael_routine, NULL);
-	//pthread_join(azrael, NULL);
 	join_threads(threads, data.philo_num);
 	while (data.philo_num--)
 		pthread_mutex_destroy(&data.forks[data.philo_num]);
@@ -55,9 +52,9 @@ static void	init_data(char **av, t_data *data)
 		data->meals = true;
 		data->meals_to_eat = ft_atoull(av[5]);
 	}
+	data->stop = false;
 	gettimeofday(&time, NULL);
 	data->start_time = time.tv_sec * 1000 + time.tv_usec / 1000;
-	data->stop = false;
 	i = 0;
 	while (i < data->philo_num)
 	{
@@ -78,6 +75,7 @@ static void	init_philo(t_philo *philo, t_data *data)
 		philo[i].last_eaten = data->start_time;
 		philo[i].is_eating = false;
 		philo[i].meals_eaten = 0;
+		philo[i].stop = false;
 		philo[i].data = data;
 		i++;
 	}
