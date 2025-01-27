@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:29 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/26 20:49:08 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/27 16:38:21 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_data
 	unsigned long long	start_time;
 	bool				stop;
 	pthread_mutex_t		forks[200];
+	pthread_mutex_t		print;
 }				t_data;
 
 typedef struct s_philo
@@ -50,7 +51,7 @@ int					ft_intcmp(char *w1, char *w2);
 int					valid_input(char **av);
 void				ft_putstr_fd(const char *s, int fd);
 void				ft_putchar_fd(char c, int fd);
-void				*routine(void *data);
+void				*routine(void *phil);
 void				*azrael_routine(void *data);
 void				ft_putnbr_fd(unsigned long long nb, int fd);
 void				die(t_philo *philo);
@@ -60,5 +61,7 @@ void				think(t_philo *philo);
 void				rest(t_philo *philo);
 unsigned char		ft_atouc(char *str);
 unsigned long long	ft_atoull(char *str);
+unsigned char		min(unsigned char a, unsigned char b);
+unsigned char		max(unsigned char a, unsigned char b);
 
 #endif

@@ -6,12 +6,11 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:10 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/26 20:48:44 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/27 17:50:50 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdbool.h>
 
 static void	init_data(char **av, t_data *data);
 static void	init_philo(t_philo *philo, t_data *data);
@@ -33,19 +32,24 @@ int	main(int ac, char **av)
 	init_data(av, &data);
 	init_philo(philo, &data);
 	creat_threads(threads, philo, data.philo_num);
-	pthread_create(&azrael, NULL, azrael_routine, NULL);
-	pthread_join(azrael, NULL);
+	//pthread_create(&azrael, NULL, azrael_routine, NULL);
+	//pthread_join(azrael, NULL);
 	join_threads(threads, data.philo_num);
+	while (data.philo_num--)
+		pthread_mutex_destroy(&data.forks[data.philo_num]);
+	pthread_mutex_destroy(&data.print);
 }
 
 static void	init_data(char **av, t_data *data)
 {
 	struct timeval	time;
+	int				i;
 
 	data->philo_num = ft_atouc(av[1]);
 	data->time_to_die = ft_atoull(av[2]);
 	data->time_to_eat = ft_atoull(av[3]);
 	data->time_to_sleep = ft_atoull(av[4]);
+	data->meals = false;
 	if (av[5])
 	{
 		data->meals = true;
@@ -54,6 +58,13 @@ static void	init_data(char **av, t_data *data)
 	gettimeofday(&time, NULL);
 	data->start_time = time.tv_sec * 1000 + time.tv_usec / 1000;
 	data->stop = false;
+	i = 0;
+	while (i < data->philo_num)
+	{
+		pthread_mutex_init(&data->forks[i], NULL);
+		i++;
+	}
+	pthread_mutex_init(&data->print, NULL);
 }
 
 static void	init_philo(t_philo *philo, t_data *data)
@@ -80,7 +91,7 @@ static void	creat_threads(pthread_t *threads,
 	i = 0;
 	while (i < amount)
 	{
-		//pthread_create(&threads[i], NULL, routine, NULL);
+		pthread_create(&threads[i], NULL, routine, &philo[i]);
 		i++;
 	}
 }
