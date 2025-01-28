@@ -15,7 +15,7 @@ $(BUILD_DIR):
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-$(BUILD_DIR)%.o: %.c
+$(BUILD_DIR)%.o: %.c philo.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
