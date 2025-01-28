@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 20:30:20 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/28 11:01:10 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/28 20:23:21 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 unsigned long long	get_tm(void);
 void				kill_philo(t_philo *p, t_data *d);
+void				set_data(t_data *d);
 
 void	azrael(t_philo *p, t_data *d)
 {
-	int				i;
-	int				not_done;
+	int	i;
+	int	not_done;
 
 	while (true)
 	{
@@ -26,21 +27,21 @@ void	azrael(t_philo *p, t_data *d)
 		not_done = 0;
 		while (++i < d->philo_num)
 		{
+			pthread_mutex_lock(&p[i].access);
 			if (d->meals && !p[i].stop && p[i].meals_eaten < d->meals_to_eat)
 				not_done++;
-			if (get_tm() - p[i].last_eaten > d->time_to_die
-				&& !p[i].is_eating && !p[i].stop)
+			if (get_tm() - p[i].last_eaten > d->time_to_die && !p[i].is_eating
+				&& !p[i].stop)
 			{
 				kill_philo(&p[i], d);
 				if (!d->meals)
-					return ;
+					return (pthread_mutex_unlock(&p[i].access),
+						(void)pthread_mutex_unlock(&p->death));
 			}
+			pthread_mutex_unlock(&p[i].access);
 		}
 		if (d->meals && not_done == 0)
-		{
-			d->stop = true;
-			return ;
-		}
+			return (set_data(d));
 	}
 }
 
@@ -54,8 +55,21 @@ unsigned long long	get_tm(void)
 
 void	kill_philo(t_philo *p, t_data *d)
 {
-	p->stop = true;
-	die(p);
 	if (!d->meals)
+	{
+		pthread_mutex_lock(&d->death);
 		d->stop = true;
+		pthread_mutex_unlock(&d->death);
+	}
+	die(p);
+	pthread_mutex_lock(&p->death);
+	p->stop = true;
+	pthread_mutex_unlock(&p->death);
+}
+
+void	set_data(t_data *d)
+{
+	pthread_mutex_lock(&d->death);
+	d->stop = true;
+	pthread_mutex_unlock(&d->death);
 }
