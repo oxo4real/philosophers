@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:10 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/27 20:39:25 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/28 11:13:59 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	main(int ac, char **av)
 	init_data(av, &data);
 	init_philo(philo, &data);
 	creat_threads(threads, philo, data.philo_num);
+	if (data.philo_num > 1)
+		azrael(philo, &data);
 	join_threads(threads, data.philo_num);
 	while (data.philo_num--)
 		pthread_mutex_destroy(&data.forks[data.philo_num]);

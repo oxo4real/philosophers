@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:29 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/27 20:37:35 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/28 10:07:16 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,8 @@ unsigned char		ft_atouc(char *str);
 unsigned long long	ft_atoull(char *str);
 unsigned char		min(unsigned char a, unsigned char b);
 unsigned char		max(unsigned char a, unsigned char b);
+void				azrael(t_philo *p, t_data *d);
+void				print_action(unsigned long long elapsed_time,
+						t_philo *philo, char *action);
 
 #endif
