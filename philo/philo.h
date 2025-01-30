@@ -6,21 +6,20 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:29 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/28 18:39:10 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/28 10:07:16 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <unistd.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <sys/time.h>
-# include <unistd.h>
 
 # define ULL_MAX "18446744073709551615"
-# define USAGE \
-	"Usage:\t./philo number_of_philosophers \
+# define USAGE "Usage:\t./philo number_of_philosophers \
 time_to_die time_to_eat time_to_sleep \
 [number_of_times_each_philosopher_must_eat]\n"
 
@@ -36,8 +35,7 @@ typedef struct s_data
 	unsigned long long	start_time;
 	pthread_mutex_t		forks[200];
 	pthread_mutex_t		print;
-	pthread_mutex_t		death;
-}						t_data;
+}				t_data;
 
 typedef struct s_philo
 {
@@ -47,29 +45,26 @@ typedef struct s_philo
 	unsigned long long	meals_eaten;
 	bool				stop;
 	t_data				*data;
-	pthread_mutex_t		access;
-	pthread_mutex_t		death;
-}						t_philo;
+}				t_philo;
 
-void					sleep_if_not_dead(t_philo *p);
-int						ft_strncmp(const char *s1, const char *s2, int n);
-int						ft_intcmp(char *w1, char *w2);
-int						valid_input(char **av);
-void					ft_putstr_fd(const char *s, int fd);
-void					ft_putchar_fd(char c, int fd);
-void					*routine(void *phil);
-void					ft_putnbr_fd(unsigned long long nb, int fd);
-void					die(t_philo *philo);
-void					take_a_fork(t_philo *philo);
-void					eat(t_philo *philo);
-void					think(t_philo *philo);
-void					rest(t_philo *philo);
-unsigned char			ft_atouc(char *str);
-unsigned long long		ft_atoull(char *str);
-unsigned char			min(unsigned char a, unsigned char b);
-unsigned char			max(unsigned char a, unsigned char b);
-void					azrael(t_philo *p, t_data *d);
-void					print_action(unsigned long long elapsed_time,
-							t_philo *philo, char *action);
+int					ft_strncmp(const char *s1, const char *s2, int n);
+int					ft_intcmp(char *w1, char *w2);
+int					valid_input(char **av);
+void				ft_putstr_fd(const char *s, int fd);
+void				ft_putchar_fd(char c, int fd);
+void				*routine(void *phil);
+void				ft_putnbr_fd(unsigned long long nb, int fd);
+void				die(t_philo *philo);
+void				take_a_fork(t_philo *philo);
+void				eat(t_philo *philo);
+void				think(t_philo *philo);
+void				rest(t_philo *philo);
+unsigned char		ft_atouc(char *str);
+unsigned long long	ft_atoull(char *str);
+unsigned char		min(unsigned char a, unsigned char b);
+unsigned char		max(unsigned char a, unsigned char b);
+void				azrael(t_philo *p, t_data *d);
+void				print_action(unsigned long long elapsed_time,
+						t_philo *philo, char *action);
 
 #endif

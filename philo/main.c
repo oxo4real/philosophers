@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:10 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/28 18:25:39 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/01/28 11:25:31 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void	init_data(char **av, t_data *data);
 static void	init_philo(t_philo *philo, t_data *data);
 static void	join_threads(pthread_t *threads, unsigned char amount);
-static void	creat_threads(pthread_t *threads, t_philo *philo,
-				unsigned char amount);
+static void	creat_threads(pthread_t *threads,
+				t_philo *philo, unsigned char amount);
 
 int	main(int ac, char **av)
 {
@@ -35,13 +35,8 @@ int	main(int ac, char **av)
 		azrael(philo, &data);
 	join_threads(threads, data.philo_num);
 	while (data.philo_num--)
-	{
-		pthread_mutex_destroy(&philo[data.philo_num].access);
-		pthread_mutex_destroy(&philo[data.philo_num].death);
 		pthread_mutex_destroy(&data.forks[data.philo_num]);
-	}
 	pthread_mutex_destroy(&data.print);
-	pthread_mutex_destroy(&data.death);
 }
 
 static void	init_data(char **av, t_data *data)
@@ -69,7 +64,6 @@ static void	init_data(char **av, t_data *data)
 		i++;
 	}
 	pthread_mutex_init(&data->print, NULL);
-	pthread_mutex_init(&data->death, NULL);
 }
 
 static void	init_philo(t_philo *philo, t_data *data)
@@ -85,14 +79,12 @@ static void	init_philo(t_philo *philo, t_data *data)
 		philo[i].meals_eaten = 0;
 		philo[i].stop = false;
 		philo[i].data = data;
-		pthread_mutex_init(&philo[i].access, NULL);
-		pthread_mutex_init(&philo[i].death, NULL);
 		i++;
 	}
 }
 
-static void	creat_threads(pthread_t *threads, t_philo *philo,
-		unsigned char amount)
+static void	creat_threads(pthread_t *threads,
+				t_philo *philo, unsigned char amount)
 {
 	unsigned char	i;
 
