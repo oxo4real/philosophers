@@ -1,5 +1,5 @@
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -fsanitize=thread -g
 BUILD_DIR := build/
 SRCS := actions.c azrael.c ft_atouc.c ft_atoull.c ft_intcmp.c ft_putchar_fd.c \
 		ft_putnbr_fd.c ft_putstr_fd.c ft_strncmp.c main.c min_max.c print_action.c \
