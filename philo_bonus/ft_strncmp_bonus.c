@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/27 13:06:32 by aaghzal           #+#    #+#             */
-/*   Updated: 2024/06/27 17:33:22 by aaghzal          ###   ########.fr       */
+/*   Created: 2025/01/14 14:08:03 by aaghzal           #+#    #+#             */
+/*   Updated: 2025/01/14 14:08:03 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-void	ft_putnbr_fd(unsigned long long nb, int fd)
+int	ft_strncmp(const char *s1, const char *s2, int n)
 {
-	char			c;
+	int		i;
 
-	c = (nb % 10) + 48;
-	if (nb / 10 != 0)
+	i = 0;
+	while ((s1[i] != 0 || s2[i] != 0) && i < n)
 	{
-		ft_putnbr_fd(nb / 10, fd);
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
 	}
-	ft_putchar_fd(c, fd);
+	return (0);
 }

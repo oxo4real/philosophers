@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atouc.c                                         :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 12:32:55 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/14 12:51:57 by aaghzal          ###   ########.fr       */
+/*   Created: 2025/02/02 17:25:14 by aaghzal           #+#    #+#             */
+/*   Updated: 2025/02/02 17:25:16 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned char	ft_atouc(char *str)
-{
-	unsigned char	num;
+#include "philo_bonus.h"
 
-	num = 0;
-	while (*str <= ' ')
-		str++;
-	while (*str == '-' || *str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9')
+time_t	get_time_in_ms(void)
+{
+	struct timeval		tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	philo_sleep(time_t sleep_time)
+{
+	time_t	wake_up;
+
+	wake_up = get_time_in_ms() + sleep_time;
+	while (get_time_in_ms() < wake_up)
 	{
-		num = num * 10 + (*str - 48);
-		str++;
+		usleep(100);
 	}
-	return (num);
+}
+
+void	sim_start_delay(time_t start_time)
+{
+	while (get_time_in_ms() < start_time)
+		continue ;
 }

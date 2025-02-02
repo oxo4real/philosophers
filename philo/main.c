@@ -5,105 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 12:16:10 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/28 11:13:59 by aaghzal          ###   ########.fr       */
+/*   Created: 2025/01/31 16:39:31 by aaghzal           #+#    #+#             */
+/*   Updated: 2025/02/01 11:54:39 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	init_data(char **av, t_data *data);
-static void	init_philo(t_philo *philo, t_data *data);
-static void	join_threads(pthread_t *threads, unsigned char amount);
-static void	creat_threads(pthread_t *threads,
-				t_philo *philo, unsigned char amount);
+static bool	start_simulation(t_data *data);
+static void	stop_simulation(t_data	*data);
 
 int	main(int ac, char **av)
 {
-	t_data		data;
-	t_philo		philo[200];
-	pthread_t	threads[200];
+	t_data	*data;
 
-	if (ac < 5 || ac > 6)
-		return (ft_putstr_fd(USAGE, 2), 1);
-	if (!valid_input(av))
-		return (ft_putstr_fd("Invalid input\n", 2), 1);
-	init_data(av, &data);
-	init_philo(philo, &data);
-	creat_threads(threads, philo, data.philo_num);
-	if (data.philo_num > 1)
-		azrael(philo, &data);
-	join_threads(threads, data.philo_num);
-	while (data.philo_num--)
-		pthread_mutex_destroy(&data.forks[data.philo_num]);
-	pthread_mutex_destroy(&data.print);
+	data = NULL;
+	if (ac - 1 < 4 || ac - 1 > 5)
+		return (msg(STR_USAGE, NULL, EXIT_FAILURE));
+	if (!is_valid_input(av))
+		return (msg("Invalid input\n", NULL, EXIT_FAILURE));
+	data = init_data(ac, av, 1);
+	if (!data)
+		return (EXIT_FAILURE);
+	if (!start_simulation(data))
+		return (EXIT_FAILURE);
+	stop_simulation(data);
+	return (EXIT_SUCCESS);
 }
 
-static void	init_data(char **av, t_data *data)
+static bool	start_simulation(t_data *data)
 {
-	struct timeval	time;
-	int				i;
+	unsigned int	i;
 
-	data->philo_num = ft_atouc(av[1]);
-	data->time_to_die = ft_atoull(av[2]);
-	data->time_to_eat = ft_atoull(av[3]);
-	data->time_to_sleep = ft_atoull(av[4]);
-	data->meals = false;
-	if (av[5])
-	{
-		data->meals = true;
-		data->meals_to_eat = ft_atoull(av[5]);
-	}
-	data->stop = false;
-	gettimeofday(&time, NULL);
-	data->start_time = time.tv_sec * 1000 + time.tv_usec / 1000;
+	data->start_time = get_time_in_ms() + (data->nb_philos * 20);
 	i = 0;
-	while (i < data->philo_num)
+	while (i < data->nb_philos)
 	{
-		pthread_mutex_init(&data->forks[i], NULL);
+		if (pthread_create(&data->philos[i]->thread, NULL,
+				&philosopher, data->philos[i]) != 0)
+			return (error_failure(STR_ERR_THREAD, NULL, data));
 		i++;
 	}
-	pthread_mutex_init(&data->print, NULL);
+	if (data->nb_philos > 1)
+	{
+		if (pthread_create(&data->grim_reaper, NULL,
+				&grim_reaper, data) != 0)
+			return (error_failure(STR_ERR_THREAD, NULL, data));
+	}
+	return (true);
 }
 
-static void	init_philo(t_philo *philo, t_data *data)
+static void	stop_simulation(t_data	*data)
 {
-	unsigned char	i;
+	unsigned int	i;
 
 	i = 0;
-	while (i < data->philo_num)
+	while (i < data->nb_philos)
 	{
-		philo[i].id = i + 1;
-		philo[i].last_eaten = data->start_time;
-		philo[i].is_eating = false;
-		philo[i].meals_eaten = 0;
-		philo[i].stop = false;
-		philo[i].data = data;
+		pthread_join(data->philos[i]->thread, NULL);
 		i++;
 	}
-}
-
-static void	creat_threads(pthread_t *threads,
-				t_philo *philo, unsigned char amount)
-{
-	unsigned char	i;
-
-	i = 0;
-	while (i < amount)
-	{
-		pthread_create(&threads[i], NULL, routine, &philo[i]);
-		i++;
-	}
-}
-
-static void	join_threads(pthread_t *threads, unsigned char amount)
-{
-	unsigned char	i;
-
-	i = 0;
-	while (i < amount)
-	{
-		pthread_join(threads[i], NULL);
-		i++;
-	}
+	if (data->nb_philos > 1)
+		pthread_join(data->grim_reaper, NULL);
+	destroy_mutexes(data);
+	free_data(data);
 }

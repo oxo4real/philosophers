@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_input.c                                     :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 12:48:59 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/01/26 12:28:58 by aaghzal          ###   ########.fr       */
+/*   Created: 2025/01/31 15:05:25 by aaghzal           #+#    #+#             */
+/*   Updated: 2025/02/02 17:54:59 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-static int	check_size(char *s, int j);
-static int	check_only_spaces(char *s);
-static int	zero(char *s);
+static bool	check_size(char *s, int j);
+static bool	check_only_spaces(char *s);
+static bool	zero(char *s);
+int			ft_atoi(char *str);
 
-int	valid_input(char **av)
+bool	is_valid_input(char **av)
 {
 	int		signe;
 	int		i;
@@ -28,7 +29,7 @@ int	valid_input(char **av)
 		signe = 1;
 		i = 0;
 		if (!av[j][i] || !check_size(av[j], j))
-			return (0);
+			return (false);
 		while (av[j][i] == ' ')
 			i++;
 		while (av[j][i] == '+' || av[j][i] == '-')
@@ -38,13 +39,13 @@ int	valid_input(char **av)
 			i++;
 		}
 		if (signe < 0 && !zero(&av[j][i]))
-			return (0);
+			return (false);
 		j++;
 	}
-	return (1);
+	return (true);
 }
 
-static int	check_size(char *s, int j)
+static bool	check_size(char *s, int j)
 {
 	int		size;
 	char	*s1;
@@ -59,35 +60,52 @@ static int	check_size(char *s, int j)
 		size++;
 	}
 	if (!check_only_spaces(s))
-		return (0);
+		return (false);
 	if (((j == 1 && size == 3
 				&& ft_strncmp(s1, "200", 3) > 0)
 			|| (j == 1 && (size > 3 || size == 0)))
-		|| ((j > 1 && size == 20
-				&& ft_strncmp(s1, ULL_MAX, 20) > 0)
+		|| ((j > 1 && size == 10
+				&& ft_strncmp(s1, "2147483647", 10) > 0)
 			|| size > 20))
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
-static int	check_only_spaces(char *s)
+static bool	check_only_spaces(char *s)
 {
 	while (*s)
 	{
 		if (*s != ' ')
-			return (0);
+			return (false);
 		s++;
 	}
-	return (1);
+	return (true);
 }
 
-static int	zero(char *s)
+static bool	zero(char *s)
 {
 	while (*s)
 	{
 		if (*s != '0' && *s != ' ')
-			return (0);
+			return (false);
 		s++;
 	}
-	return (1);
+	return (true);
+}
+
+int	ft_atoi(char *str)
+{
+	int	num;
+
+	num = 0;
+	while (*str <= ' ')
+		str++;
+	while (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		num = num * 10 + (*str - 48);
+		str++;
+	}
+	return (num);
 }
