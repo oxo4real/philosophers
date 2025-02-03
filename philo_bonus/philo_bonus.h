@@ -6,14 +6,13 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:23:20 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/02 18:58:10 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 12:47:59 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-# include <limits.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -21,9 +20,6 @@
 # include <stdbool.h>
 # include <semaphore.h>
 # include <signal.h>
-# include <fcntl.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
 # include <pthread.h>
 
 /******************************************************************************
