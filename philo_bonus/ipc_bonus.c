@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:18:15 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/03 12:43:53 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 13:00:34 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static bool	philo_open_global_semaphores(t_philo *philo)
 
 static bool	philo_open_local_semaphores(t_philo *philo)
 {
+	sem_unlink(philo->sem_meal_name);
 	philo->sem_meal = sem_open(philo->sem_meal_name, O_CREAT,
 			S_IRUSR | S_IWUSR, 1);
 	if (philo->sem_meal == SEM_FAILED)
 		return (false);
-	sem_unlink(philo->sem_meal_name);
 	return (true);
 }
 
@@ -47,7 +47,6 @@ void	init_philo_ipc(t_data *data, t_philo *philo)
 {
 	if (data->nb_philos == 1)
 		return ;
-	sem_unlink(philo->sem_meal_name);
 	if (!philo_open_global_semaphores(philo))
 		child_exit(data, CHILD_EXIT_ERR_SEM);
 	if (!philo_open_local_semaphores(philo))
