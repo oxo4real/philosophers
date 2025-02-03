@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:26:04 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/03 10:53:56 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 14:44:54 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	eat_sleep_routine(t_philo *philo)
 	grab_fork(philo);
 	write_status(philo, false, EATING);
 	sem_wait(philo->sem_meal);
-	philo->is_eating = true;
+	philo->is_eating = false;
 	philo->last_meal = get_time_in_ms();
 	sem_post(philo->sem_meal);
 	philo_sleep(philo->data->time_to_eat);
