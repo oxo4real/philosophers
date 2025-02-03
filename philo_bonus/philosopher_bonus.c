@@ -6,15 +6,15 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:26:04 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/03 09:54:36 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:53:56 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+static void	philosopher_routine(t_philo *philo);
 static void	eat_sleep_routine(t_philo *philo);
 static void	lone_philo_routine(t_philo *philo);
-static void	philosopher_routine(t_philo *philo);
 
 void	philosopher(t_data *data)
 {
