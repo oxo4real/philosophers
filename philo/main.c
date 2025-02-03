@@ -6,14 +6,14 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:39:31 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/01 11:54:39 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:24:04 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 static bool	start_simulation(t_data *data);
-static void	stop_simulation(t_data	*data);
+static void	stop_simulation(t_data *data);
 
 int	main(int ac, char **av)
 {
@@ -55,7 +55,7 @@ static bool	start_simulation(t_data *data)
 	return (true);
 }
 
-static void	stop_simulation(t_data	*data)
+static void	stop_simulation(t_data *data)
 {
 	unsigned int	i;
 

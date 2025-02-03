@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:05:32 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/02 13:55:51 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:10:27 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,14 @@ void			sim_start_delay(time_t start_time);
 
 //	output.c
 void			write_status(t_philo *philo, bool reaper, t_status status);
-void			write_outcome(t_data *data);
-void			*error_null(char *str, char *details, t_data *data);
-int				msg(char *str, char *detail, int exit_no);
 
 //	grim_reaper.c
 void			*grim_reaper(void *data);
 bool			has_simulation_stopped(t_data *data);
 
 //	exit.c
+int				msg(char *str, char *detail, int exit_no);
+void			*error_null(char *str, char *details, t_data *data);
 int				error_failure(char *str, char *details, t_data *data);
 void			*free_data(t_data *data);
 void			destroy_mutexes(t_data *data);
