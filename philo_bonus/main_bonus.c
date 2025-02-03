@@ -6,11 +6,35 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:18:35 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/02 18:17:34 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/03 09:52:26 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+bool		has_simulation_stopped(t_data *data);
+static bool	start_simulation(t_data *data);
+static int	get_child_philo(t_data *data, pid_t *pid);
+static int	stop_simulation(t_data	*data);
+
+int	main(int ac, char **av)
+{
+	t_data	*data;
+
+	data = NULL;
+	if (ac - 1 < 4 || ac - 1 > 5)
+		return (msg(STR_USAGE, NULL, EXIT_FAILURE));
+	if (!is_valid_input(av))
+		return (msg("Invalid input\n", NULL, EXIT_FAILURE));
+	data = init_data(ac, av, 1);
+	if (!data)
+		return (EXIT_FAILURE);
+	if (!start_simulation(data))
+		return (EXIT_FAILURE);
+	if (stop_simulation(data) == -1)
+		return (data_cleanup(data, EXIT_FAILURE));
+	return (data_cleanup(data, EXIT_SUCCESS));
+}
 
 bool	has_simulation_stopped(t_data *data)
 {
@@ -97,23 +121,4 @@ static int	stop_simulation(t_data	*data)
 		}
 	}
 	return (0);
-}
-
-int	main(int ac, char **av)
-{
-	t_data	*data;
-
-	data = NULL;
-	if (ac - 1 < 4 || ac - 1 > 5)
-		return (msg(STR_USAGE, NULL, EXIT_FAILURE));
-	if (!is_valid_input(av))
-		return (msg("Invalid input\n", NULL, EXIT_FAILURE));
-	data = init_data(ac, av, 1);
-	if (!data)
-		return (EXIT_FAILURE);
-	if (!start_simulation(data))
-		return (EXIT_FAILURE);
-	if (stop_simulation(data) == -1)
-		return (data_cleanup(data, EXIT_FAILURE));
-	return (data_cleanup(data, EXIT_SUCCESS));
 }
