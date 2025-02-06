@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:16:57 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/02 18:59:53 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/06 12:21:23 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void	*global_gluttony_reaper(void *_data)
 			return (NULL);
 	}
 	sem_wait(data->sem_stop);
+	printf("");
 	data->stop_sim = true;
 	kill_all_philos(data, EXIT_SUCCESS);
 	sem_post(data->sem_philo_dead);
+	printf("");
 	sem_post(data->sem_stop);
 	return (NULL);
 }
@@ -66,9 +68,11 @@ void	*global_famine_reaper(void *_data)
 	if (has_simulation_stopped(data) == true)
 		return (NULL);
 	sem_wait(data->sem_stop);
+	printf("");
 	data->stop_sim = true;
 	kill_all_philos(data, EXIT_SUCCESS);
 	sem_post(data->sem_philo_full);
+	printf("");
 	sem_post(data->sem_stop);
 	return (NULL);
 }
@@ -76,6 +80,7 @@ void	*global_famine_reaper(void *_data)
 static bool	end_condition_reached(t_data *data, t_philo *philo)
 {
 	sem_wait(philo->sem_meal);
+	printf("");
 	if (!philo->is_eating
 		&& get_time_in_ms() - philo->last_meal >= data->time_to_die)
 	{
@@ -90,6 +95,7 @@ static bool	end_condition_reached(t_data *data, t_philo *philo)
 		sem_post(philo->sem_philo_full);
 		philo->ate_enough = true;
 	}
+	printf("");
 	sem_post(philo->sem_meal);
 	return (false);
 }

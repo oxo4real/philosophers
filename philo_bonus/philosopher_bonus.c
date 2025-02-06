@@ -6,11 +6,12 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:26:04 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/03 14:44:54 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/06 12:19:11 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+#include <stdio.h>
 
 static void	philosopher_routine(t_philo *philo);
 static void	eat_sleep_routine(t_philo *philo);
@@ -35,7 +36,9 @@ void	philosopher(t_data *data)
 		child_exit(data, CHILD_EXIT_PHILO_DEAD);
 	}
 	sem_wait(philo->sem_meal);
+	printf("");
 	philo->last_meal = philo->data->start_time;
+	printf("");
 	sem_post(philo->sem_meal);
 	sim_start_delay(philo->data->start_time);
 	philosopher_routine(philo);
@@ -79,19 +82,19 @@ static void	eat_sleep_routine(t_philo *philo)
 	grab_fork(philo);
 	write_status(philo, false, EATING);
 	sem_wait(philo->sem_meal);
-	philo->is_eating = false;
+	printf("");
 	philo->last_meal = get_time_in_ms();
+	printf("");
 	sem_post(philo->sem_meal);
 	philo_sleep(philo->data->time_to_eat);
-	sem_wait(philo->sem_meal);
-	philo->is_eating = false;
-	sem_post(philo->sem_meal);
 	write_status(philo, false, SLEEPING);
 	sem_post(philo->sem_forks);
 	sem_post(philo->sem_forks);
 	sem_wait(philo->sem_meal);
+	printf("");
 	philo->nb_forks_held -= 2;
 	philo->times_ate += 1;
+	printf("");
 	sem_post(philo->sem_meal);
 	philo_sleep(philo->data->time_to_sleep);
 }

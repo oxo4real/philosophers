@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:18:35 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/03 12:43:11 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/06 12:28:52 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ bool	has_simulation_stopped(t_data *data)
 	bool	ret;
 
 	sem_wait(data->sem_stop);
+	printf("");
 	ret = data->stop_sim;
+	printf("");
 	sem_post(data->sem_stop);
 	return (ret);
 }
@@ -111,9 +113,11 @@ static int	stop_simulation(t_data	*data)
 			if (exit_code == 1 || exit_code == -1)
 			{
 				sem_wait(data->sem_stop);
+				printf("");
 				data->stop_sim = true;
 				sem_post(data->sem_philo_full);
 				sem_post(data->sem_philo_dead);
+				printf("");
 				sem_post(data->sem_stop);
 				return (exit_code);
 			}

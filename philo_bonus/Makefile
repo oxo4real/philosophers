@@ -6,14 +6,14 @@
 #    By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/02 17:22:56 by aaghzal           #+#    #+#              #
-#    Updated: 2025/02/03 12:43:18 by aaghzal          ###   ########.fr        #
+#    Updated: 2025/02/06 12:26:34 by aaghzal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= philo_bonus
 
 CC		= cc
-CFLAGS	= -Werror -Wall -Wextra
+CFLAGS	= -Werror -Wall -Wextra -fsanitize=thread -g
 
 BUILD_DIR = build/
 
