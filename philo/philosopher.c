@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:04:07 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/03 14:44:29 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/07 10:18:18 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,12 @@ static void	eat_sleep_routine(t_philo *philo)
 	pthread_mutex_lock(&philo->data->fork_locks[philo->fork[0]]);
 	write_status(philo, false, GOT_FORK_1);
 	pthread_mutex_lock(&philo->data->fork_locks[philo->fork[1]]);
-	pthread_mutex_lock(&philo->meal_time_lock);
-	philo->is_eating = false;
-	pthread_mutex_unlock(&philo->meal_time_lock);
 	write_status(philo, false, GOT_FORK_2);
 	write_status(philo, false, EATING);
-	philo_sleep(philo->data, philo->data->time_to_eat);
 	pthread_mutex_lock(&philo->meal_time_lock);
 	philo->last_meal = get_time_in_ms();
-	philo->is_eating = false;
 	pthread_mutex_unlock(&philo->meal_time_lock);
+	philo_sleep(philo->data, philo->data->time_to_eat);
 	if (has_simulation_stopped(philo->data) == false)
 	{
 		pthread_mutex_lock(&philo->meal_time_lock);

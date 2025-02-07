@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:05:10 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/02 13:27:21 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/07 10:31:15 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,8 @@ static pthread_mutex_t	*init_forks(t_data *data)
 
 static void	assign_forks(t_philo *philo)
 {
-	if (philo->id % 2 != 0)
-	{
-		philo->fork[0] = (philo->id + 1) % philo->data->nb_philos;
-		philo->fork[1] = philo->id;
-	}
-	else
-	{
-		philo->fork[0] = philo->id;
-		philo->fork[1] = (philo->id + 1) % philo->data->nb_philos;
-	}
+	philo->fork[0] = (philo->id + 1) % philo->data->nb_philos;
+	philo->fork[1] = philo->id;
 }
 
 static t_philo	**init_philosophers(t_data *data)
