@@ -6,7 +6,7 @@
 /*   By: aaghzal <aaghzal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:05:25 by aaghzal           #+#    #+#             */
-/*   Updated: 2025/02/02 17:54:59 by aaghzal          ###   ########.fr       */
+/*   Updated: 2025/02/07 10:59:11 by aaghzal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static bool	check_size(char *s, int j)
 			|| (j == 1 && (size > 3 || size == 0)))
 		|| ((j > 1 && size == 10
 				&& ft_strncmp(s1, "2147483647", 10) > 0)
-			|| size > 20))
+			|| size > 20)
+		|| (j < 5 && size == 0))
 		return (false);
 	return (true);
 }
